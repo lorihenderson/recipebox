@@ -1,0 +1,10 @@
+<div class = "container">
+    <h1>Hello. {{ recipebox }}</h1>
+    <ul>
+        {% for recipe in recipes %}
+        <li>
+            <a href="recipe/{{recipe.id}}/">{{ recipe.title }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>

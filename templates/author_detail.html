@@ -1,0 +1,17 @@
+<div class="container">
+    {% if not author %}
+        <h1>The author you are looking for doesn't exist. </h1>
+    {% else %}
+        <h4>{{ author.name }}</h4>
+        Name: {{author}}
+        <p>Bio: {{ author.bio }}</p>
+        <ul>
+            {% for recipe in author_recipes %}
+                <li>
+                    <a href="/recipe/{{recipe.id}}">{{ recipe.title }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+
+    {% endif %}
+</div>
