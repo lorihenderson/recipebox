@@ -6,5 +6,17 @@
         <h4><a href="/author/{{recipes.author.id}}/">{{ recipes.author.name }}</a></h4>
         <p>{{ recipes.description }} | {{ recipes.time_required }}</p>
         <p>{{ recipes.instructions }}</p>
+        {% if user.author.id == recipe.author.id or user.is_staff %}
+            <a href="/recipe/{{ recipes.id }}/edit/">Edit</a>
+        {% endif %}
+        <form action="{% url 'favorites' recipes.pk %}" method="POST">
+            {% csrf_token %}
+
+            {% if user.is_authenticated%}
+                <button type="submit" name="recipe_id" value="{{ recipes.id }}">Favorite</button>
+            {% else %}
+                <h2>Must Be Logged In To Create Favorites!</h2>
+            {% endif %}
+        </form>
     {% endif %}
 </div>

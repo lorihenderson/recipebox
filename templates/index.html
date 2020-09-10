@@ -1,5 +1,6 @@
 <div class = "container">
     <h1>Hello. {{ recipebox }}</h1>
+    <h3>Welcome {{ request.user }}!</h2>
     <ul>
         {% for recipe in recipes %}
         <li>
@@ -7,4 +8,7 @@
         </li>
         {% endfor %}
     </ul>
+    <a href="addauthor/">Add an Author</a>
+    <br>
+    <a href="addrecipe/">Add a Recipe</a>
 </div>
