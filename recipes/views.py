@@ -79,3 +79,32 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse("homepage"))
+
+
+def favorite_view(request, favorite_id):
+    logged_in_user = request.user
+    fav_recipe = Recipe.objects.filter(id=favorite_id).first()
+    logged_in_user.author.favorites.add(fav_recipe)
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+
+
+@login_required
+def edit_view(request, recipe_id):
+      recipe_initial = Recipe.objects.filter(id=recipe_id).first()
+      recipe_dict = {"title": recipe_initial.title, "time_required": recipe_initial.time_required, "description": recipe_initial.description, "instructions": recipe_initial.instructions}
+      if request.user.is_staff or request.user.author == recipe_initial.author:
+        form = AddRecipeForm(initial=recipe_dict)
+        if request.method == "POST":
+              form = AddRecipeForm(request.POST, initial=recipe_dict)
+              if form.is_valid():
+                data = form.cleaned_data
+                recipe_initial.title = data.get("title")
+                recipe_initial.time_required = data.get("time_required")
+                recipe_initial.description = data.get("description")
+                recipe_initial.instructions = data.get("instructions")
+
+                recipe_initial.save()
+                return HttpResponseRedirect(reverse("homepage"))
+        return render(request, "add_recipe.html", {"form": form})
+      else:
+        return HttpResponse("Access Denied")

@@ -14,4 +14,14 @@
         </ul>
 
     {% endif %}
+
+<h3>Favorited Recipes</h3>
+    <hr>
+    {% for recipe in author.favorites.all %}
+    <p>Title: <a href="/recipe/{{recipe.id}}">{{ recipe.title }}</a> || {{ recipe.time_required }}</p>
+    <p>Author: {{ recipe.author }}</p>
+    <p>Description: {{ recipe.description }}</p>
+    <p>Instructions: {{ recipe.instructions }}</p>
+    <hr>
+    {% endfor %}
 </div>
